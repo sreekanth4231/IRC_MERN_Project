@@ -1,3 +1,5 @@
+
+
 // import React, { useState, useEffect } from "react";
 // import axios from "axios";
 
@@ -10,10 +12,7 @@
 
 //   const API_URL = "https://irc-mern-project.onrender.com/api/students";
 
-
-
-
-//   // This is for Create 
+//   // Create student
 //   const create = async () => {
 //     try {
 //       const res = await axios.post(API_URL, {
@@ -22,7 +21,10 @@
 //         subject,
 //         createAt: date,
 //       });
+
 //       setStudentDB([...studentDB, res.data.data]);
+
+//       // Clear input fields
 //       setStudentName("");
 //       setGrade("");
 //       setSubject("");
@@ -32,18 +34,17 @@
 //     }
 //   };
 
-//   //This is to get all the student
+//   // Get all students
 //   const get = async () => {
 //     try {
 //       const res = await axios.get(API_URL);
-//       setStudentDB(res.data); 
+//       setStudentDB(res.data);
 //     } catch (err) {
 //       console.error("Error fetching:", err.message);
 //     }
 //   };
 
-//   //The following code is for Deleting
-
+//   // Delete student
 //   const deleted = async (id) => {
 //     try {
 //       await axios.delete(`${API_URL}/${id}`);
@@ -67,45 +68,43 @@
 //         value={studentName}
 //         onChange={(e) => setStudentName(e.target.value)}
 //       />
+//       <br />
+
 //       <input
 //         type="text"
 //         placeholder="Grade"
 //         value={grade}
 //         onChange={(e) => setGrade(e.target.value)}
 //       />
+//       <br />
+
 //       <input
 //         type="text"
 //         placeholder="Subject"
 //         value={subject}
 //         onChange={(e) => setSubject(e.target.value)}
 //       />
+//       <br />
+
 //       <input
 //         type="date"
 //         value={date}
 //         onChange={(e) => setDate(e.target.value)}
 //       />
+//       <br /><br />
 
-      
-//         <button onClick={create}>Add</button>
-      
+//       <button onClick={create}>Add</button>
 
 //       <h3>All Students</h3>
+
 //       <ul>
 //         {studentDB.map((s) => (
 //           <li key={s._id}>
-//             {s.studentName} - {s.grade} - {s.subject} - {s.createAt?.slice(0,10)}
-//             <button
-//               onClick={() => {
-//                 setEdit(s._id);
-//                 setStudentName(s.studentName);
-//                 setGrade(s.grade);
-//                 setSubject(s.subject);
-//                 setDate(s.createAt?.slice(0,10));
-//               }}
-//             >
-              
+//             {s.studentName} - {s.grade} - {s.subject} -{" "}
+//             {s.createAt?.slice(0, 10)}
+//             <button onClick={() => deleted(s._id)} style={{ marginLeft: "10px" }}>
+//               Delete
 //             </button>
-//             <button onClick={() => deleted(s._id)}>Delete</button>
 //           </li>
 //         ))}
 //       </ul>
@@ -114,7 +113,6 @@
 // }
 
 // export default App;
-
 
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -128,7 +126,6 @@ function App() {
 
   const API_URL = "https://irc-mern-project.onrender.com/api/students";
 
-  // Create student
   const create = async () => {
     try {
       const res = await axios.post(API_URL, {
@@ -140,7 +137,6 @@ function App() {
 
       setStudentDB([...studentDB, res.data.data]);
 
-      // Clear input fields
       setStudentName("");
       setGrade("");
       setSubject("");
@@ -150,7 +146,6 @@ function App() {
     }
   };
 
-  // Get all students
   const get = async () => {
     try {
       const res = await axios.get(API_URL);
@@ -160,7 +155,6 @@ function App() {
     }
   };
 
-  // Delete student
   const deleted = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
@@ -175,7 +169,7 @@ function App() {
   }, []);
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="container">
       <h2>Student Portal</h2>
 
       <input
@@ -183,42 +177,44 @@ function App() {
         placeholder="Student Name"
         value={studentName}
         onChange={(e) => setStudentName(e.target.value)}
+        className="input-box"
       />
-      <br />
 
       <input
         type="text"
         placeholder="Grade"
         value={grade}
         onChange={(e) => setGrade(e.target.value)}
+        className="input-box"
       />
-      <br />
 
       <input
         type="text"
         placeholder="Subject"
         value={subject}
         onChange={(e) => setSubject(e.target.value)}
+        className="input-box"
       />
-      <br />
 
       <input
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
+        className="input-box"
       />
-      <br /><br />
 
-      <button onClick={create}>Add</button>
+      <button onClick={create} className="btn-add">Add</button>
 
       <h3>All Students</h3>
 
-      <ul>
+      <ul style={{ paddingLeft: 0 }}>
         {studentDB.map((s) => (
-          <li key={s._id}>
-            {s.studentName} - {s.grade} - {s.subject} -{" "}
-            {s.createAt?.slice(0, 10)}
-            <button onClick={() => deleted(s._id)} style={{ marginLeft: "10px" }}>
+          <li key={s._id} className="student-item">
+            <span>
+              {s.studentName} - {s.grade} - {s.subject} - {s.createAt?.slice(0, 10)}
+            </span>
+
+            <button onClick={() => deleted(s._id)} className="btn-delete">
               Delete
             </button>
           </li>
