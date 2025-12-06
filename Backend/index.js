@@ -43,33 +43,38 @@
 //     console.log(`Server running on port ${PORT}`);
 // });
 
-
 require("dotenv").config();
-const express = require('express');
-const db = require('./db');
-const cors = require('cors');
-const router = require('./Routes/studentRoute');
+const express = require("express");
+const cors = require("cors");
+const db = require("./db");
+const router = require("./Routes/studentRoute");
 
 const app = express();
 
-// MUST COME FIRST
+
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization",
+  })
+);
+
+
 app.use(express.json());
 
-// MUST COME BEFORE ROUTES
-const corsOptions = {
-  origin: "*",
-  methods: "GET,POST,PUT,DELETE",
-  allowedHeaders: "Content-Type,Authorization",
-};
-app.use(cors(corsOptions));
 
-// Connect to DB
 db();
 
-// Routes
-app.use('/api', router);
 
-// Port
+app.use("/api", router);
+
+
+app.get("/", (req, res) => {
+  res.send("API is running successfully");
+});
+
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
