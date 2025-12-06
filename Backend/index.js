@@ -52,26 +52,26 @@ const router = require('./Routes/studentRoute');
 
 const app = express();
 
-// Middleware
+// MUST COME FIRST
 app.use(express.json());
 
+// MUST COME BEFORE ROUTES
 const corsOptions = {
   origin: "*",
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: "Content-Type,Authorization",
 };
-
 app.use(cors(corsOptions));
 
-// Connect to MongoDB
+// Connect to DB
 db();
 
 // Routes
 app.use('/api', router);
 
-// Use PORT from .env
+// Port
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

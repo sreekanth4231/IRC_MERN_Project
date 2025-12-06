@@ -128,23 +128,46 @@ function App() {
 
   const create = async () => {
     try {
-      const res = await axios.post(API_URL, {
-        studentName,
-        grade,
-        subject,
-        createAt: date,
-      });
 
-      setStudentDB([...studentDB, res.data.data]);
+      const dataToSend = {
+      studentName,
+      grade,
+      subject,
+    };
 
-      setStudentName("");
-      setGrade("");
-      setSubject("");
-      setDate("");
-    } catch (err) {
-      console.error("Error creating:", err.message);
+    // Add date ONLY if user selected one
+    if (date) {
+      dataToSend.createAt = date;
     }
-  };
+
+    const res = await axios.post(API_URL, dataToSend);
+
+    setStudentDB([...studentDB, res.data.data]);
+
+    setStudentName("");
+    setGrade("");
+    setSubject("");
+    setDate("");
+  } catch (err) {
+    console.error("Error creating:", err.message);
+  }
+};
+  //     const res = await axios.post(API_URL, {
+  //       studentName,
+  //       grade,
+  //       subject,
+  //     });
+
+  //     setStudentDB([...studentDB, res.data.data]);
+
+  //     setStudentName("");
+  //     setGrade("");
+  //     setSubject("");
+  //     setDate("");
+  //   } catch (err) {
+  //     console.error("Error creating:", err.message);
+  //   }
+  // };
 
   const get = async () => {
     try {
